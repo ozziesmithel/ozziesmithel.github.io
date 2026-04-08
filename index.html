@@ -4,111 +4,545 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ozzie Smith El</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg: #020a0f;
+      --bg2: #040d14;
+      --panel: #071520;
+      --teal: #00e5cc;
+      --teal-dim: #00b8a4;
+      --teal-glow: rgba(0,229,204,0.12);
+      --teal-faint: rgba(0,229,204,0.04);
+      --blue: #0a7ea4;
+      --text: #c8e6f0;
+      --muted: #5a8a9a;
+      --mono: 'Share Tech Mono', monospace;
+      --sans: 'Syne', sans-serif;
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: Arial, sans-serif; color: #333; background: #fff; max-width: 860px; margin: 0 auto; padding: 40px 32px; }
-    h1 { font-size: 28px; font-weight: bold; }
-    .contact { color: #595959; font-size: 14px; margin: 6px 0 24px; }
-    .contact a { color: #2E74B5; text-decoration: none; }
-    .section-title { font-size: 11px; font-weight: bold; color: #2E74B5; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1.5px solid #2E74B5; padding-bottom: 4px; margin: 24px 0 10px; }
-    .focus { font-size: 14px; line-height: 1.6; margin-bottom: 8px; }
-    .job { margin-bottom: 10px; }
-    .job-header { font-size: 14px; margin-bottom: 3px; }
-    .job-header b { font-weight: bold; }
-    .job-header span { color: #595959; font-size: 13px; }
-    ul { padding-left: 18px; }
-    ul li { font-size: 13px; line-height: 1.7; }
-    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-    .skill-item { font-size: 13px; line-height: 1.6; }
-    .skill-item b { color: #333; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Animated background grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,204,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,204,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Protein chain animation top */
+    .helix {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--teal), transparent);
+      animation: scanline 4s linear infinite;
+      z-index: 1;
+      opacity: 0.6;
+    }
+
+    @keyframes scanline {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 40px 80px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Header */
+    header {
+      margin-bottom: 56px;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--teal);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      opacity: 0.8;
+    }
+
+    h1 {
+      font-family: var(--sans);
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 800;
+      line-height: 1.05;
+      color: #fff;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+
+    h1 span {
+      color: var(--teal);
+    }
+
+    .contact-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .contact-bar a, .contact-bar span {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+
+    .contact-bar a:hover { color: var(--teal); }
+
+    .contact-bar .sep {
+      width: 1px;
+      height: 14px;
+      background: rgba(0,229,204,0.2);
+    }
+
+    /* Focus block */
+    .focus-block {
+      background: var(--teal-faint);
+      border: 1px solid rgba(0,229,204,0.15);
+      border-left: 3px solid var(--teal);
+      padding: 20px 24px;
+      margin-bottom: 48px;
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.8;
+      animation: fadeUp 0.8s 0.1s ease both;
+    }
+
+    /* Section */
+    section {
+      margin-bottom: 44px;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    section:nth-child(2) { animation-delay: 0.15s; }
+    section:nth-child(3) { animation-delay: 0.2s; }
+    section:nth-child(4) { animation-delay: 0.25s; }
+    section:nth-child(5) { animation-delay: 0.3s; }
+    section:nth-child(6) { animation-delay: 0.35s; }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(0,229,204,0.3), transparent);
+    }
+
+    /* Skills grid */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .skill-card {
+      background: var(--panel);
+      border: 1px solid rgba(0,229,204,0.08);
+      padding: 14px 16px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .skill-card:hover {
+      border-color: rgba(0,229,204,0.25);
+      background: var(--teal-faint);
+    }
+
+    .skill-card .skill-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--teal);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .skill-card p {
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* Bio bullets */
+    .bio-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .bio-list li {
+      font-size: 13.5px;
+      color: var(--text);
+      padding-left: 20px;
+      position: relative;
+      line-height: 1.65;
+    }
+
+    .bio-list li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--teal);
+      font-size: 11px;
+      top: 3px;
+    }
+
+    /* Job entries */
+    .job {
+      margin-bottom: 22px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid rgba(0,229,204,0.06);
+    }
+
+    .job:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+
+    .job-title {
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 14px;
+      color: #fff;
+    }
+
+    .job-title span {
+      color: var(--teal-dim);
+      font-weight: 400;
+    }
+
+    .job-meta {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .job ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .job ul li {
+      font-size: 13px;
+      color: #7aadbc;
+      padding-left: 18px;
+      position: relative;
+      line-height: 1.6;
+    }
+
+    .job ul li::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: var(--muted);
+    }
+
+    /* Education */
+    .edu-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .edu-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .edu-name {
+      font-weight: 600;
+      font-size: 13.5px;
+      color: #fff;
+    }
+
+    .edu-degree {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .edu-date {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    /* Amino acid decoration */
+    .amino-strip {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: rgba(0,229,204,0.15);
+      letter-spacing: 3px;
+      overflow: hidden;
+      white-space: nowrap;
+      margin: 40px 0;
+      user-select: none;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 60px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(0,229,204,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    footer span {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: rgba(0,229,204,0.25);
+      letter-spacing: 1px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .wrapper { padding: 40px 20px 60px; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .job-header { flex-direction: column; }
+      .contact-bar { gap: 12px; }
+      .sep { display: none; }
+    }
   </style>
 </head>
 <body>
 
-  <h1>Ozzie Smith El</h1>
-  <div class="contact">
-    ozziesmith2@gmail.com &nbsp;|&nbsp;
-    <a href="https://linkedin.com/in/ozziesmithel">linkedin.com/in/ozziesmithel</a> &nbsp;|&nbsp;
-    +1 617.459.1527 &nbsp;|&nbsp; Boston, MA
+<div class="helix"></div>
+
+<div class="wrapper">
+
+  <header>
+    <div class="tag">// researcher · engineer · builder</div>
+    <h1>Ozzie <span>Smith El</span></h1>
+    <div class="contact-bar">
+      <a href="mailto:ozziesmith2@gmail.com">ozziesmith2@gmail.com</a>
+      <div class="sep"></div>
+      <a href="https://linkedin.com/in/ozziesmithel" target="_blank">linkedin.com/in/ozziesmithel</a>
+      <div class="sep"></div>
+      <span>+1 617.459.1527</span>
+      <div class="sep"></div>
+      <span>Boston, MA</span>
+    </div>
+  </header>
+
+  <div class="focus-block">
+    AI/ML engineer and computational biologist pursuing roles in space biotech, biosystems intelligence, and protein science. Applying ESM-3, AlphaFold, and protein language models to cross-environment protein behavior research. Background spans blockchain/Web3 R&amp;D, smart contract auditing, AgTech systems, and autonomous platforms.
   </div>
 
-  <div class="section-title">Professional Focus</div>
-  <p class="focus">AI/ML engineer and computational biologist pursuing roles in space biotech, biosystems intelligence, and protein science. Applying ESM-3, AlphaFold, and protein language models to cross-environment protein behavior research. Background spans blockchain/Web3 R&D, smart contract auditing, AgTech systems, and autonomous platforms.</p>
-
-  <div class="section-title">Technical Skills</div>
-  <div class="skills-grid">
-    <div class="skill-item"><b>Protein &amp; Computational Biology:</b> ESM-3, AlphaFold, Biopython, py3Dmol, InstaNovo</div>
-    <div class="skill-item"><b>AI/ML &amp; Data:</b> Python, LangChain, Ollama, LLaMA, Jupyter, Anaconda</div>
-    <div class="skill-item"><b>Blockchain &amp; Web3:</b> Solidity, Ethereum, Smart Contracts, Web3.js, Solana</div>
-    <div class="skill-item"><b>Systems &amp; Infrastructure:</b> JavaScript, Node.js, Rust, AWS DevOps, Linux</div>
+  <div class="amino-strip">
+    M–K–I–L–N–V–K–P–I–D–L–N–M–A–Q–I–K–P–G–M–I–L–G–Q–D–L–V–V–I–V–D–D–S–I–F–A–Q–F–L–E–E–N–A–E–I–M–K–T–E–I–Q–N–I–R–E–Q–F–G–K–K–L–T–I–H–T–S–G–K–N–L–V–I–E–G–M–R–K–L–N–D–F–M–D–K–I–G–G–P–G–Q–M–T–I–A–D–T–K–S–L–F–R–E–V–F–G–D–L–R
   </div>
 
-  <div class="section-title">Computational Biology &amp; Protein Engineering</div>
-  <ul>
-    <li>Deployed ESM-3 Open locally for de novo archaeal protein structure prediction using Apple Silicon MPS acceleration</li>
-    <li>Performed 3D structure prediction on extremophile archaeal proteins (<i>Sulfolobus acidocaldarius</i> PCNA)</li>
-    <li>Built end-to-end protein analysis and visualization pipeline integrating ESM-3, Biopython, and py3Dmol</li>
-    <li>Researched nanopore protein sequencing and InstaNovo transformer-based de novo peptide sequencing</li>
-    <li>Studying archaeal biochemistry as a baseline model for protein behavior across extreme planetary environments</li>
-  </ul>
+  <section>
+    <div class="section-label">Technical Skills</div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-label">Protein &amp; Computational Biology</div>
+        <p>ESM-3, AlphaFold, Biopython, py3Dmol, InstaNovo, protein structure prediction, archaeal sequence analysis</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-label">AI/ML &amp; Data</div>
+        <p>Python, LangChain, Ollama, LLaMA, Power BI, Jupyter Notebooks, Anaconda</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-label">Blockchain &amp; Web3</div>
+        <p>Solidity, Ethereum, Smart Contracts, Web3.js, Solana, npm</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-label">Systems &amp; Infrastructure</div>
+        <p>JavaScript, Node.js, Rust, AWS DevOps, Linux, IT/Network Systems</p>
+      </div>
+    </div>
+  </section>
 
-  <div class="section-title">Education</div>
-  <div class="job">
-    <div class="job-header"><b>American Public University System (APUS)</b> <span>| M.S. Space Studies – Aerospace Science | Jan 2026 – Present</span></div>
-    <div class="job-header"><b>Endicott College</b> <span>| B.A. Interdisciplinary Studies | May 2025</span></div>
-    <div class="job-header"><b>Lincoln Technical Institute</b> <span>| Certificate, IT/Network Systems Administration | May 2012</span></div>
-    <div class="job-header"><b>PrepZee</b> <span>| AI/ML Engineering Certificate Program | Jan 2026 – Present</span></div>
-  </div>
-
-  <div class="section-title">Professional Experience</div>
-
-  <div class="job">
-    <div class="job-header"><b>Sentenia Systems Inc.</b> | Network Technician <span>| Wakefield, MA | 2026 – Present</span></div>
-    <ul>
-      <li>Install and resolve electromagnetic lock and access control keypad failures</li>
-      <li>Conduct quarterly calibrations and functional testing on fire alarm panel devices</li>
-      <li>Install and route ethernet cabling to data center racks and network equipment</li>
+  <section>
+    <div class="section-label">Computational Biology &amp; Protein Engineering</div>
+    <ul class="bio-list">
+      <li>Deployed ESM-3 Open locally for de novo archaeal protein structure prediction using Apple Silicon MPS acceleration</li>
+      <li>Performed 3D structure prediction on extremophile archaeal proteins (<i>Sulfolobus acidocaldarius</i> PCNA)</li>
+      <li>Built end-to-end protein analysis and visualization pipeline integrating ESM-3, Biopython, and py3Dmol</li>
+      <li>Researched nanopore protein sequencing and InstaNovo transformer-based de novo peptide sequencing for proteomics applications</li>
+      <li>Studying archaeal biochemistry as a baseline model for protein behavior across extreme planetary environments</li>
     </ul>
-  </div>
+  </section>
 
-  <div class="job">
-    <div class="job-header"><b>Technology Service Professionals</b> | Associate Field Engineer <span>| Boston, MA | 2022 – 2023</span></div>
-    <ul>
-      <li>Performed installation and maintenance of storage arrays; hands-on hardware break-fix</li>
-      <li>Interfaced with IT customers and external support organizations</li>
-    </ul>
-  </div>
+  <section>
+    <div class="section-label">Education</div>
+    <div class="edu-list">
+      <div class="edu-item">
+        <div>
+          <div class="edu-name">American Public University System (APUS)</div>
+          <div class="edu-degree">M.S. Space Studies – Aerospace Science</div>
+        </div>
+        <div class="edu-date">Jan 2026 – Present</div>
+      </div>
+      <div class="edu-item">
+        <div>
+          <div class="edu-name">Endicott College</div>
+          <div class="edu-degree">B.A. Interdisciplinary Studies</div>
+        </div>
+        <div class="edu-date">May 2025</div>
+      </div>
+      <div class="edu-item">
+        <div>
+          <div class="edu-name">Lincoln Technical Institute</div>
+          <div class="edu-degree">Certificate, IT/Network Systems Administration</div>
+        </div>
+        <div class="edu-date">May 2012</div>
+      </div>
+      <div class="edu-item">
+        <div>
+          <div class="edu-name">PrepZee</div>
+          <div class="edu-degree">AI/ML Engineering Certificate Program</div>
+        </div>
+        <div class="edu-date">Jan 2026 – Present</div>
+      </div>
+    </div>
+  </section>
 
-  <div class="job">
-    <div class="job-header"><b>Hyosung America</b> | Field Service Engineer <span>| Boston, MA | 2021 – 2022</span></div>
-    <ul>
-      <li>Installed, repaired, and maintained bank ATMs across a defined geographic territory</li>
-      <li>Trained bank staff on preventive maintenance tasks and equipment operation</li>
-    </ul>
-  </div>
+  <section>
+    <div class="section-label">Professional Experience</div>
 
-  <div class="job">
-    <div class="job-header"><b>Signature Aviation</b> | Line Service Technician <span>| Bedford, MA | 2019 – 2021</span></div>
-    <ul>
-      <li>Provided aircraft services including marshaling, fueling, hangar storage, and towing</li>
-      <li>Operated ground service equipment including tugs, fuel trucks, and transport vans</li>
-    </ul>
-  </div>
+    <div class="job">
+      <div class="job-header">
+        <div class="job-title">Sentenia Systems Inc. <span>/ Network Technician</span></div>
+        <div class="job-meta">Wakefield, MA · 2026–Present</div>
+      </div>
+      <ul>
+        <li>Install and resolve electromagnetic locks and access control keypad failures</li>
+        <li>Conduct quarterly calibrations and functional testing on fire alarm panel devices</li>
+        <li>Install and route ethernet cabling to data center racks and network equipment</li>
+      </ul>
+    </div>
 
-  <div class="job">
-    <div class="job-header"><b>Various Employers</b> | Heavy Equipment / Mechanical Systems Operator <span>| Boston, MA | 2019 – Present</span></div>
-    <ul>
-      <li>Operated precision-controlled skid steers with hands-on experience in mechanical actuation and force dynamics</li>
-      <li>Applied joystick-controlled hydraulics, building foundational knowledge of robotic actuators and motion systems</li>
-    </ul>
-  </div>
+    <div class="job">
+      <div class="job-header">
+        <div class="job-title">Technology Service Professionals <span>/ Associate Field Engineer</span></div>
+        <div class="job-meta">Boston, MA · 2022–2023</div>
+      </div>
+      <ul>
+        <li>Performed installation and maintenance of storage arrays; hands-on hardware break-fix</li>
+        <li>Interfaced with IT customers and external support organizations</li>
+      </ul>
+    </div>
 
-  <div class="job">
-    <div class="job-header"><b>Mandias Entertainment</b> | Owner/Operator <span>| Boston, MA | 2012 – Present</span></div>
-    <ul>
-      <li>Plan, execute, and manage events including DJ services, marketing, and social media management</li>
-    </ul>
-  </div>
+    <div class="job">
+      <div class="job-header">
+        <div class="job-title">Hyosung America <span>/ Field Service Engineer</span></div>
+        <div class="job-meta">Boston, MA · 2021–2022</div>
+      </div>
+      <ul>
+        <li>Installed, repaired, and maintained bank ATMs across a defined geographic territory</li>
+        <li>Trained bank staff on preventive maintenance tasks and equipment operation</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <div class="job-title">Signature Aviation <span>/ Line Service Technician</span></div>
+        <div class="job-meta">Bedford, MA · 2019–2021</div>
+      </div>
+      <ul>
+        <li>Provided aircraft services including marshaling, fueling, hangar storage, and towing</li>
+        <li>Operated ground service equipment including tugs, fuel trucks, and transport vans</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <div class="job-title">Various Employers <span>/ Heavy Equipment &amp; Mechanical Systems Operator</span></div>
+        <div class="job-meta">Boston, MA · 2019–Present</div>
+      </div>
+      <ul>
+        <li>Operated precision-controlled skid steers; hands-on experience in mechanical actuation and force dynamics</li>
+        <li>Applied joystick-controlled hydraulics — foundational knowledge of robotic actuators and motion systems</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <div class="job-title">Mandias Entertainment <span>/ Owner &amp; Operator</span></div>
+        <div class="job-meta">Boston, MA · 2012–Present</div>
+      </div>
+      <ul>
+        <li>Plan, execute, and manage events including DJ services, marketing, and social media management</li>
+      </ul>
+    </div>
+
+  </section>
+
+  <footer>
+    <span>OZZIE SMITH EL · BOSTON MA · 2026</span>
+    <span>ESM-3 · ALPHAFOLD · BIOPYTHON · PYTHON · WEB3</span>
+  </footer>
+
+</div>
 
 </body>
 </html>
